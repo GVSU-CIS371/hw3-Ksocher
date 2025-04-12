@@ -1,6 +1,9 @@
 <template>
   <div>
-    <Beverage :isIced="beverageStore.currentTemp === 'Cold'" />
+    <Beverage :isIced="beverageStore.currentTemp === 'Cold'"
+    :baseColor="beverageStore.currentBase?.color"
+    :creamerColor="beverageStore.currentCreamer?.color"
+    :syrupColor="beverageStore.currentSyrup?.color" />
     <ul>
       <li>
         <template v-for="temp in beverageStore.temps" :key="temp">
@@ -75,6 +78,9 @@
 import Beverage from "./components/Beverage.vue";
 import { useBeverageStore } from "./stores/beverageStore";
 const beverageStore = useBeverageStore();
+
+
+
 </script>
 
 <style lang="scss">
