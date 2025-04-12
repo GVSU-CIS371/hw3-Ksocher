@@ -10,11 +10,6 @@ import db from "../firebase.ts";
 import {
   collection,
   getDocs,
-  setDoc,
-  doc,
-  QuerySnapshot,
-  QueryDocumentSnapshot,
-  onSnapshot,
 } from "firebase/firestore";
 
 export const useBeverageStore = defineStore("BeverageStore", {
@@ -33,7 +28,19 @@ export const useBeverageStore = defineStore("BeverageStore", {
   }),
 
   actions: {
-    init() {},
+    async init() {
+      const basesSnapshot = await getDocs(collection(db, "bases"));
+      const creamersSnapshot = await getDocs(collection(db, "creamers"));
+      const syrupsSnapshot = await getDocs(collection(db, "syrups"));
+
+      this.bases = basesSnapshot.docs.map((doc) => doc.data() as BaseBeverageType);
+      this.creamers = creamersSnapshot.docs.map((doc) => doc.data() as CreamerType);
+      this.syrups = syrupsSnapshot.docs.map((doc) => doc.data() as SyrupType);
+
+      this.currentBase = this.bases[0] || null;
+      this.currentCreamer = this.creamers[0] || null;
+      this.currentSyrup = this.syrups[0] || null;
+    },
     makeBeverage() {},
 
     showBeverage() {},
